@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import Hero from "public/hero.png";
+import Button from "@/components/button/Button";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
           Developping skills by learning Next.js 13. A super exiting project
           covering the main features.
         </p>
-        <button className={styles.button}>Learn more</button>
+        <Button url={"mailto:jean@webdevelap.com"} text={'Learn more'}/>
       </div>
       <div className={styles.item}>
         <Image src={Hero} alt="" className={styles.img} />
