@@ -4,3 +4,19 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.imageContainer {
+    height: 16px;
+    width: 16px;
+    position: relative;
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon {
+    opacity: 0.6;
+}
