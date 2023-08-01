@@ -2,7 +2,8 @@
 import Link from 'next/link'
 import React from 'react'
 import styles from './navbar.module.css'
-import DarkModeToggle from '../darkModeToggle/darkModeToggle';
+import DarkModeToggle from '../darkModeToggle/DarkModeToggle';
+
 
 const links = [
   {
