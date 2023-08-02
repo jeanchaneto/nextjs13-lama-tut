@@ -5,6 +5,10 @@ import Image from "next/image";
 import Button from "@/components/button/Button";
 
 const Contact = () => {
+
+
+
+  
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Let's get in touch</h1>
