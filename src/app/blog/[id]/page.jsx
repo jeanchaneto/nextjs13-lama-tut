@@ -18,10 +18,19 @@ async function getData(id) {
   return res.json()
 }
 
+export async function generateMetadata(
+  { params }) {
+    const post = await getData(params.id)
+    return {
+      title: "NEXT.JS 13 tuto | Blog | "+post.title,
+      description: post.desc
+    }
+  }
+
 const BlogPost = async ({params}) => {
 
 const data = await getData(params.id);
-console.log(data)
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>

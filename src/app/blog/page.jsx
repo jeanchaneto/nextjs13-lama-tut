@@ -6,8 +6,13 @@ import styles from "./page.module.css";
 const NEXT_URL =
   process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
 
+export const metadata = {
+  title: "Next.js 13 Tut | Blog ",
+  description: "Follow along project blog page",
+};
+
 async function getData() {
-  const res = await fetch(`${NEXT_URL}/api/posts`, { cache: 'no-store' });
+  const res = await fetch(`${NEXT_URL}/api/posts`, { cache: "no-store" });
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
 

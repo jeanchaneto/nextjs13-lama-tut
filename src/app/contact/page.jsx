@@ -4,10 +4,12 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Button from "@/components/button/Button";
 
+export const metadata = {
+  title: "Next.js 13 Tut | Contact ",
+  description: "Follow along project contact page",
+};
+
 const Contact = () => {
-
-
-
   
   return (
     <div className={styles.container}>

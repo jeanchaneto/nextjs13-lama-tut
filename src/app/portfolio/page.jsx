@@ -2,6 +2,11 @@ import React from 'react'
 import styles from './page.module.css'
 import Link from 'next/link'
 
+export const metadata = {
+  title: "Next.js 13 Tut | Portfolio ",
+  description: "Follow along project portfolio page",
+};
+
 const Portfolio = () => {
   return (
     <div className={styles.container}>
