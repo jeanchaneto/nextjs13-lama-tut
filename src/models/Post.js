@@ -27,5 +27,5 @@ const postSchema = new Schema(
   { timestamps: true }
 );
 
-//creates user collection in db
-export default mongoose.model("Post", postSchema);
+//creates post collection in db if does not exist
+export default mongoose.models.Post || mongoose.model("Post", postSchema);

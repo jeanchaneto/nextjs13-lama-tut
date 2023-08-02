@@ -1,30 +1,35 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react'
-import styles from './page.module.css'
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import styles from "./page.module.css";
 
+const NEXT_URL =
+  process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
 
 async function getData() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const res = await fetch(`${NEXT_URL}/api/posts`, { cache: 'no-store' });
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
- 
+
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
+    throw new Error("Failed to fetch data");
   }
- 
-  return res.json()
+
+  return res.json();
 }
 
 const Blog = async () => {
-
   const data = await getData();
 
   return (
     <div className={styles.mainContainer}>
       {data.map((item) => (
-        <Link href={`/blog/${item._id}`} className={styles.container} key={item.id}>
+        <Link
+          href={`/blog/${item._id}`}
+          className={styles.container}
+          key={item.id}
+        >
           <div className={styles.imageContainer}>
             <Image
               src={item.img}
@@ -44,4 +49,4 @@ const Blog = async () => {
   );
 };
 
-export default Blog
+export default Blog;
