@@ -2,6 +2,7 @@
 import useSWR from 'swr';
 
 import React, { useEffect, useState } from "react";
+import { useSession } from 'next-auth/react';
 
 const Dashboard = () => {
 
@@ -26,6 +27,9 @@ const Dashboard = () => {
 //     getData();
 //   }, []);
 // console.log(data);
+
+const session = useSession();
+console.log(session);
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 
