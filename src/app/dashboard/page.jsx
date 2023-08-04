@@ -58,10 +58,28 @@ const Dashboard = () => {
     try {
       await fetch("/api/posts", {
         method: "POST",
-        body: JSON.stringify({ title, desc, img, content, username: session.data.user.name }),
+        body: JSON.stringify({
+          title,
+          desc,
+          img,
+          content,
+          username: session.data.user.name,
+        }),
       });
-      mutate()
-    } catch(err) {
+      mutate();
+      e.target.reset();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`api/posts/${id}`, {
+        method: "DELETE",
+      });
+      mutate();
+    } catch (err) {
       console.log(err);
     }
   };
