@@ -1,22 +1,34 @@
-"use client"
-import styles from './page.module.css'
-import { signIn } from "next-auth/react";
+"use client";
+import styles from "./page.module.css";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
-
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const Login = () => {
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router?.push("/dashboard");
+    }
+  }, [router, session]);
+
+  if (session.status === "loading") {
+    return <p>Loading...</p>;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
     signIn("credentials", {
-      email, password
-    })
+      email,
+      password,
+    });
   };
 
-  
   return (
     <div className={styles.container}>
       {/* <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1> */}

@@ -1,44 +1,115 @@
 "use client";
-import useSWR from 'swr';
-
+import useSWR from "swr";
+import styles from "./page.module.css";
 import React, { useEffect, useState } from "react";
-import { useSession } from 'next-auth/react';
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Dashboard = () => {
+  //   const [data, setData] = useState([]);
+  //   const [error, setError] = useState(false);
+  //   const [isLoading, setIsloading] = useState(false);
 
-//   const [data, setData] = useState([]);
-//   const [error, setError] = useState(false);
-//   const [isLoading, setIsloading] = useState(false);
+  //   useEffect(() => {
+  //     const getData = async () => {
+  //       setIsloading(true);
+  //       const res = await fetch(
+  //         `https://jsonplaceholder.typicode.com/posts/`
+  //       );
 
-//   useEffect(() => {
-//     const getData = async () => {
-//       setIsloading(true);
-//       const res = await fetch(
-//         `https://jsonplaceholder.typicode.com/posts/`
-//       );
+  //       if (!res.ok) {
+  //         setError(true);
+  //       }
 
-//       if (!res.ok) {
-//         setError(true);
-//       }
+  //       setData(await res.json());
+  //       setIsloading(false);
+  //     };
+  //     getData();
+  //   }, []);
+  // console.log(data);
 
-//       setData(await res.json());
-//       setIsloading(false);
-//     };
-//     getData();
-//   }, []);
-// console.log(data);
+  const session = useSession();
+  console.log(session);
+  const router = useRouter();
+  useEffect(() => {
+    if (session.status === "unauthenticated") {
+      router?.push("dashboard/login");
+    }
+  }, [router, session]);
 
-const session = useSession();
+  //SWR DATA FETCHING
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/posts?username=${session?.data?.user.name}`,
+    fetcher
+  );
 
-const fetcher = (...args) => fetch(...args).then(res => res.json())
+  console.log(data);
 
-const { data, error, isLoading } = useSWR('https://jsonplaceholder.typicode.com/posts/', fetcher)
- 
-  if (error) return <div>failed to load</div>
-  if (isLoading) return <div>loading...</div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const title = e.target[0].value;
+    const desc = e.target[1].value;
+    const img = e.target[2].value;
+    const content = e.target[3].value;
 
-  return <div>Dashboard</div>;
+    try {
+      await fetch("/api/posts", {
+        method: "POST",
+        body: JSON.stringify({ title, desc, img, content, username: session.data.user.name }),
+      });
+      mutate()
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+  if (error) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
+
+  if (session.status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (session.status === "authenticated") {
+    return (
+      <div className={styles.container}>
+        <div className={styles.posts}>
+          {isLoading
+            ? "loading"
+            : data?.map((post) => (
+                <div className={styles.post} key={post._id}>
+                  <div className={styles.imgContainer}>
+                    <Image src={post.img} alt="" width={200} height={100} />
+                  </div>
+                  <h2 className={styles.postTitle}>{post.title}</h2>
+                  <span
+                    className={styles.delete}
+                    onClick={() => handleDelete(post._id)}
+                  >
+                    X
+                  </span>
+                </div>
+              ))}
+        </div>
+        <form className={styles.new} onSubmit={handleSubmit}>
+          <h1>Add New Post</h1>
+          <input type="text" placeholder="Title" className={styles.input} />
+          <input type="text" placeholder="Desc" className={styles.input} />
+          <input type="text" placeholder="Image" className={styles.input} />
+          <textarea
+            placeholder="Content"
+            className={styles.textArea}
+            cols="30"
+            rows="10"
+          ></textarea>
+          <button className={styles.button}>Send</button>
+        </form>
+      </div>
+    );
+  }
 };
 
 export default Dashboard;
