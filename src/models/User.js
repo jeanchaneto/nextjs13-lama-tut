@@ -22,4 +22,4 @@ const userSchema = new Schema(
 );
 
 //creates user collection in db if does not exist
-export default mongoose.models.User || mongoose.model("User", postSchema);
+export default mongoose.models.User || mongoose.model("User", userSchema);
