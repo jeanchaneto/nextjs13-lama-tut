@@ -12,8 +12,7 @@ export const GET = async (request) => {
   try {
     await connect();
 
-    //displays all post if username not found
-    const posts = await Post.find(username && { username });
+    const posts = await Post.find();
 
     return new NextResponse(JSON.stringify(posts), { status: 200 });
   } catch (err) {
