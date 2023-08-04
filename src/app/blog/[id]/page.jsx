@@ -7,7 +7,7 @@ async function getData(id) {
   const NEXT_URL =
     process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
 
-  const res = await fetch(`/api/posts/${id}`, {
+  const res = await fetch(`${NEXT_URL}/api/posts/${id}`, {
     cache: "no-store",
   });
 

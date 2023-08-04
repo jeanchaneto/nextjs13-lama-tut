@@ -9,8 +9,12 @@ export const metadata = {
 };
 
 async function getData() {
+  const NEXT_URL =
+    process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
 
-  const res = await fetch("/api/posts", { cache: "no-store" });
+  const res = await fetch(`${NEXT_URL}/api/posts`, {
+    cache: "no-store",
+  });
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
 
@@ -27,7 +31,7 @@ const Blog = async () => {
 
   return (
     <div className={styles.mainContainer}>
-      {data.map((item) => (
+      {data?.map((item) => (
         <Link
           href={`/blog/${item._id}`}
           className={styles.container}
