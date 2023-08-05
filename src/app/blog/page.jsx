@@ -12,7 +12,7 @@ async function getData() {
   const NEXT_URL =
     process.env.NEXT_PUBLIC_FRONTEND_URL || "http://localhost:3000";
 
-  const res = await fetch(`${NEXT_URL}/api/posts`, {
+  const res = await fetch('https://nextjs13-lama-tut.vercel.app/api/posts', {
     cache: "no-store",
   });
   // The return value is *not* serialized
